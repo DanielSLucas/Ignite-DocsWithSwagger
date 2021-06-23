@@ -8,10 +8,12 @@
       "email": "daniellucas-pms@hotmail.com"
     }
   },
-  "paths":{
+  "paths": {
     "/users": {
       "post": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Create a user",
         "description": "Create a new user ",
         "requestBody": {
@@ -19,7 +21,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties":{
+                "properties": {
                   "name": {
                     "type": "string"
                   },
@@ -46,7 +48,9 @@
         }
       },
       "get": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "List all users",
         "description": "List all users",
         "parameters": [
@@ -68,13 +72,13 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "type":"object",
+                    "type": "object",
                     "properties": {
-                      "id":  {
+                      "id": {
                         "type": "string",
-                        "format":"uuid"
+                        "format": "uuid"
                       },
-                      "name":  {
+                      "name": {
                         "type": "string"
                       },
                       "email": {
@@ -103,14 +107,152 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type":"object",
-                    "properties": {
-                      "error":  {
-                        "type": "string",
-                        "format":["User does not exist", "You have to be an admin to list all users"]
-                      }
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/:user_id": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "List a specific user",
+        "description": "List a specific user",
+        "parameters": [
+          {
+            "in": "url",
+            "name": "user_id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/:user_id/admin": {
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update user role to admin",
+        "description": "Update user role to admin",
+        "parameters": [
+          {
+            "in": "url",
+            "name": "user_id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
                     }
                   }
                 }
